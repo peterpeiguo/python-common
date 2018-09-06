@@ -31,8 +31,8 @@ def monitor(user, password, db, query, condition, initial_interval, adjustment_f
         print(strftime("%H:%M", localtime()))
         empty = True
         for row in rows:
-            empty = False
             if row[0] not in known_keys:
+                empty = False
                 print(row)
                 known_keys[row[0]] = True
         if empty:
@@ -40,5 +40,6 @@ def monitor(user, password, db, query, condition, initial_interval, adjustment_f
         else:
             if interval > initial_interval:
                 interval /= adjustment_factor
+        print(interval)
         sleep(interval)
         print("=====================")        
