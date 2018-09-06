@@ -20,17 +20,25 @@ def query_database(connection, query, condition):
 
     return result
 
-def monitor(user, password, db, query, condition, interval):
+def monitor(user, password, db, query, condition, initial_interval, adjustment_factor = 1.0):
     known_keys = {}
+    interval = initial_interval
     while True:
         connection = cx_Oracle.connect(user, password, db)
         print(f"oracle version = {connection.version}")
         rows = query_database(connection, query, condition)
         connection.close()
         print(strftime("%H:%M", localtime()))
+        empty = True
         for row in rows:
+            empty = False
             if row[0] not in known_keys:
                 print(row)
                 known_keys[row[0]] = True
+        if empty:
+            interval *= adjustment_factor
+        else:
+            if interval > initial_interval:
+                interval /= adjustment_factor
         sleep(interval)
         print("=====================")        
