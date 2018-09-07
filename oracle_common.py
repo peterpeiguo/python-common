@@ -9,7 +9,9 @@ http://www.oracle.com/technetwork/articles/dsl/python-091105.html
 from time import *
 import cx_Oracle
 
-def query_database(connection, query, condition): 
+def query_database(user, password, db, query, condition): 
+    connection = cx_Oracle.connect(user, password, db)
+    print(f"oracle version = {connection.version}")
     cursor = connection.cursor()
     cursor.prepare(query)
     cursor.execute(None, condition)
@@ -17,17 +19,14 @@ def query_database(connection, query, condition):
     for row in cursor:
         result.append(row)
     cursor.close()
-
+    connection.close()
     return result
 
 def monitor(user, password, db, query, condition, initial_interval, adjustment_factor = 1.0):
     known_keys = {}
     interval = initial_interval
     while True:
-        connection = cx_Oracle.connect(user, password, db)
-        print(f"oracle version = {connection.version}")
-        rows = query_database(connection, query, condition)
-        connection.close()
+        rows = query_database(user, password, db, query, condition)
         print(strftime("%H:%M", localtime()))
         empty = True
         for row in rows:
