@@ -38,8 +38,7 @@ def monitor(user, password, db, query, condition, initial_interval, adjustment_f
         if empty:
             interval *= adjustment_factor
         else:
-            if interval > initial_interval:
-                interval /= adjustment_factor
+            interval = initial_interval
         print(interval)
         sleep(interval)
         print("=====================")        
