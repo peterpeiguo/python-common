@@ -1,3 +1,16 @@
+from ldap3 import Server, Connection, ALL, NTLM, SIMPLE, SUBTREE
+
+def search(ldap_url, user, password, search_base, search_condition, scope, attributes):
+    server = Server(ldap_url, get_info = ALL)
+    result = None
+    with Connection(server, user=user, password=password, authentication=SIMPLE) as connection:
+        connection.search(search_base, search_condition, scope, attributes=attributes)
+        result = connection.entries
+    return result
+
+
+'''
+
 import ldap
 
 def search(ldap_url, cert_location, user, password, search_base, search_scope, search_condition):
@@ -14,3 +27,4 @@ def search(ldap_url, cert_location, user, password, search_base, search_scope, s
 
     connection.simple_bind_s(user, password)
     return connection.search_s(search_base, search_scope, search_condition)
+'''
