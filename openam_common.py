@@ -26,7 +26,10 @@ class OpenAMClient:
         print("HEADERS:")
         print(response.headers)
         print("JSON DATA:")
-        print(response.json())
+        try: 
+            print(response.json())
+        except Exception as e:
+            print(e)
         print("==========================================")
 
     def increase_logging_level_for_request(self):
@@ -151,5 +154,17 @@ class OpenAMClient:
         response = self.session.post(url, json = {}, headers = headers)
         self.print_response(response)
 
-
+    def add(self):
+        url = f"{self.base_url}/users/{self.username}"
+        headers = {
+            "iplanetDirectoryPro": self.id,
+            "Cache-Control": "no-cache",
+            "Accept-API-Version": "resource=1.1, protocol=1.0",
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "If-Match": "_rev"
+        }
+        body = json.dumps( {"operation": "add", "field": "/givenName/-", "value": "Peter"})
+        response = self.session.patch(url = url, data = body, headers = headers)
+        self.print_response(response)
 
