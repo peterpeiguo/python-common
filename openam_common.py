@@ -56,16 +56,16 @@ class OpenAMClient:
 
     def authorize(self):
         #url = f"{self.base_url}/users/{self.username}/policies"
-        url = f"{self.base_url}/policies"
+        url = f"{self.base_url}/policies?_evaluateTree"
         headers = {
             "iplanetDirectoryPro": self.id,
             "Cache-Control": "no-cache",
             "Accept-API-Version": "resource=1.0, protocol=1.0",
+            "Accept": "application/json",
             "Content-Type": "application/json"
         }
         response = self.session.get(url, json = {}, headers = headers)
         self.print_response(response)
-        return response.json()        
 
     #VERY IMPORTANT, DO NOT CALL THIS
     '''
