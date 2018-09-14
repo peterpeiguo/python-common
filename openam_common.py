@@ -51,6 +51,19 @@ class OpenAMClient:
         self.print_response(response)
         self.id = response.json()["tokenId"]
 
+    def authorize(self):
+        #url = f"{self.base_url}/users/{self.username}/policies"
+        url = f"{self.base_url}/policies"
+        headers = {
+            "iplanetDirectoryPro": self.id,
+            "Cache-Control": "no-cache",
+            "Accept-API-Version": "resource=1.0, protocol=1.0",
+            "Content-Type": "application/json"
+        }
+        response = self.session.get(url, json = {}, headers = headers)
+        self.print_response(response)
+        return response.json()        
+
     #VERY IMPORTANT, DO NOT CALL THIS
     '''
     def create(self):
