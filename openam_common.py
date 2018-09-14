@@ -115,6 +115,16 @@ class OpenAMClient:
         response = self.session.get(url, json = {}, headers = headers)
         self.print_response(response)
 
+    def server_info(self):
+        url = f"{self.base_url}/serverinfo/*"
+        headers = {
+            "Accept-API-Version": "resource=1.1, protocol=1.0",
+            "Content-Type": "application/json"
+        }
+        response = self.session.get(url, json = {}, headers = headers)
+        self.print_response(response)
+
+
     '''
     at thsi point, this call receives {'code': 400, 'reason': 'Bad Request', 'message': "Unrecognized request parameter '_action'"}
     unclear why yet
