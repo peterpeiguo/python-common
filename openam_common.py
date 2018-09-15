@@ -1,7 +1,9 @@
 '''
+
 typical useage:
 client = OpenAMClient(base_url, username, password)
 client.authenticate()
+client.logout()
 '''
 
 import requests
