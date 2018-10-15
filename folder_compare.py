@@ -1,5 +1,7 @@
 '''
 rsync -av --exclude='*.exe' --exclude='*.com' --exclude='*.dll' --exclude='*.msi' --exclude='*.jar' --exclude='*.class' /media/ubuntu/Acer/ /media/ubuntu/Seagate\ Backup\ Plus\ Drive/Angel\ PC/
+
+mount -t ntfs-3g /dev/sdb3 /media/ubuntu/Acer
 '''
 
 import os
@@ -40,8 +42,8 @@ pathes_to_ignore = [
     "/media/ubuntu/Acer/ProgramData", # generating pdata.txt
     "/media/ubuntu/Acer/RemotePrograms", # fully reviewed
     "/media/ubuntu/Acer/System Volume Information", # fully reviewed
-    #"/media/ubuntu/Acer/Users/Ange/AppData",
-    #"/media/ubuntu/Acer/Users/Ange/Saved Games", # fully reviewed
+    "/media/ubuntu/Acer/Users/Ange/AppData",
+    "/media/ubuntu/Acer/Users/Ange/Saved Games", # fully reviewed
     "/media/ubuntu/Acer/WINDOWS", # fully reviwed, windows.txt
 ]
 
@@ -62,50 +64,46 @@ def copy(file1, file2):
     except:
         print("FAIL to copy")
 
-top_directories = [join(folder1, d) for d in os.listdir(folder1) if isdir(join(folder1, d)) and not join(folder1, d) in pathes_to_ignore]
-pprint.pprint(top_directories)
+for root1, dir1, files1 in os.walk(folder1):
+    if islink(root1):
+        print("===")        
+        print("IGNORE LINK: " + root1)
+        continue
 
-for top_directory in top_directories:
-    for root1, dir1, files1 in os.walk(folder1):
-        if islink(root1):
-            print("===")        
-            print("IGNORE LINK: " + root1)
-            continue
+    dir1[:] = [d for d in dir1 if not join(root1, d) in pathes_to_ignore]
+    print("+++")
+    print("D: " + root1)
+    pprint.pprint(dir1)  
+         
+    root2 = root1.replace(folder1, folder2)
 
-        if ignored_path(root1):
-            print("===")
-            print("IGNORE PATH: " + root1)
-            continue
-             
-        root2 = root1.replace(folder1, folder2)
+    if not os.path.exists(root2):
+        try:
+            os.makedirs(root2)
+        except:
+            print("FAILED TO CREATE FOLDER: " + root2)
 
-        if not os.path.exists(root2):
-            try:
-                os.makedirs(root2)
-            except:
-                print("FAILED TO CREATE FOLDER: " + root2)
-
-        for file1 in files1:
-            print("===")
-            file1 = join(root1, file1)
-            print("F1: " + file1)
-            if not ignored_extension(file1):
-                file2 = file1.replace(folder1, folder2)
-                print("F2: " + file2)
-                if exists(file2):
-                    try:
-                        if cmp(file1, file2, shallow=True):
-                            print("F1 == F2")
-                        else:
-                            print("F1 != F2")
-                            copy(file1, file2)
-                    except:
-                        print("FAIL to cmp")
-                else:            
-                    print("F2 MISSING")
-                    copy(file1, file2)
-            else:
-                print("IGNORE")
+    for file1 in files1:
+        print("===")
+        file1 = join(root1, file1)
+        print("F1: " + file1)
+        if not ignored_extension(file1):
+            file2 = file1.replace(folder1, folder2)
+            print("F2: " + file2)
+            if exists(file2):
+                try:
+                    if cmp(file1, file2, shallow=True):
+                        print("F1 == F2")
+                    else:
+                        print("F1 != F2")
+                        copy(file1, file2)
+                except:
+                    print("FAIL to cmp")
+            else:            
+                print("F2 MISSING")
+                copy(file1, file2)
+        else:
+            print("IGNORE")
 '''
 ep 1
     https://www.youtube.com/watch?v=ksZ07DSIXhE
