@@ -10,6 +10,7 @@ from filecmp import cmp
 from shutil import copyfile
 from os.path import splitext, join, exists, isdir, islink
 import pprint
+from time import localtime, strftime
 
 folder1 = "/media/ubuntu/Acer"
 folder2 = "/media/ubuntu/Seagate Backup Plus Drive/Angel PC"
@@ -33,6 +34,11 @@ extensions_to_ignore = [
 ]
 
 pathes_to_ignore = [
+    "/media/ubuntu/Acer/$Recycle.Bin/S-1-5-21-2697678158-3848119010-1890373161-1000/$RC321U3.1",
+    "/media/ubuntu/Acer/$Recycle.Bin/S-1-5-21-2697678158-3848119010-1890373161-1000/$RH6AS6S.p2g",
+    "/media/ubuntu/Acer/$Recycle.Bin/S-1-5-21-2697678158-3848119010-1890373161-1000/$RK0R9FZ",
+    "/media/ubuntu/Acer/$Recycle.Bin/S-1-5-21-2697678158-3848119010-1890373161-1000/$RQUB5LR",
+    "/media/ubuntu/Acer/$WINDOWS.~BT",
     "/media/ubuntu/Acer/DrFoneCache", # fully reviewed
     "/media/ubuntu/Acer/inetpub", # fully reviewed
     "/media/ubuntu/Acer/Intel", #fully reviewed 
@@ -40,9 +46,25 @@ pathes_to_ignore = [
     "/media/ubuntu/Acer/Program Files", # fully reviewed, pf.txt
     "/media/ubuntu/Acer/Program Files (x86)", # fully reviwed, pf86.txt
     "/media/ubuntu/Acer/ProgramData", # generating pdata.txt
-    "/media/ubuntu/Acer/RemotePrograms", # fully reviewed
+    "/media/ubuntu/Acer/Remote Programs", # fully reviewed
+    "/media/ubuntu/Acer/SmartDraw 2016", # fully reviewed
     "/media/ubuntu/Acer/System Volume Information", # fully reviewed
     "/media/ubuntu/Acer/Users/Ange/AppData",
+    "/media/ubuntu/Acer/Users/Ange/Desktop/Adobe CS3", # fully reviewed
+    "/media/ubuntu/Acer/Users/Ange/Desktop/Adobe CS5", # fully reviewed
+    "/media/ubuntu/Acer/Users/Ange/Desktop/Adobe InDesign CS4", # fully reviewed
+    "/media/ubuntu/Acer/Users/Ange/Desktop/Adobe InDesign CS5", # fully reviewed
+    "/media/ubuntu/Acer/Users/Ange/Documents/Computer Program Items",
+    "/media/ubuntu/Acer/Users/Ange/Documents/Pavtube", # fully reviewed, downloads from youtube
+    "/media/ubuntu/Acer/Users/Ange/Downloads/ADBEPHSPCS4_LS1", 
+    "/media/ubuntu/Acer/Users/Ange/Downloads/InDesign_7_5_LS1",
+    "/media/ubuntu/Acer/Users/Ange/Downloads/InDesign_7_LS1", 
+    "/media/ubuntu/Acer/Users/Ange/Downloads/Photoshop_12_1_LS1",
+    "/media/ubuntu/Acer/Users/Ange/Downloads/Photoshop_12_1_LS1(2)",
+    "/media/ubuntu/Acer/Users/Ange/Downloads/Photoshop_12_1_LS1(3)",
+    "/media/ubuntu/Acer/Users/Ange/Downloads/Photoshop_12_LS1",
+    "/media/ubuntu/Acer/Users/Ange/Downloads/Photoshop_12_LS1(2)",
+    "/media/ubuntu/Acer/Users/Ange/Downloads/Photoshop_13_LS16",
     "/media/ubuntu/Acer/Users/Ange/Saved Games", # fully reviewed
     "/media/ubuntu/Acer/WINDOWS", # fully reviwed, windows.txt
 ]
@@ -64,6 +86,7 @@ def copy(file1, file2):
     except:
         print("FAIL to copy")
 
+print(strftime("%Y-%m-%d %H:%M:%S", localtime()))
 for root1, dir1, files1 in os.walk(folder1):
     if islink(root1):
         print("===")        
@@ -104,6 +127,8 @@ for root1, dir1, files1 in os.walk(folder1):
                 copy(file1, file2)
         else:
             print("IGNORE")
+print(strftime("%Y-%m-%d %H:%M:%S", localtime()))
+
 '''
 ep 1
     https://www.youtube.com/watch?v=ksZ07DSIXhE
@@ -143,25 +168,5 @@ ep 10
     https://www.youtube.com/watch?v=oUf6hgbxUnU
     the guy win horse bet and the newyear eve everyone together
 
-hotpot
-    change to low before go sleep
-    turn off tmr morning
-    try some
-    let Y try
-Angel form
-    check online version
-    make sure check all docs
-check program files folder
-    generatign list right now
-what did I eat today
-    breakfast
-        1 yogurt
-        2 dinner roll
-        1 chocolate
-    lunch
-        some egg/spinach/turkey dish
-        1 banana
-    dinner
-        some dishes Angel bought
-
+check appdata folder
 '''
