@@ -2,6 +2,7 @@
 rsync -av --exclude='*.exe' --exclude='*.com' --exclude='*.dll' --exclude='*.msi' --exclude='*.jar' --exclude='*.class' /media/ubuntu/Acer/ /media/ubuntu/Seagate\ Backup\ Plus\ Drive/Angel\ PC/
 
 mount -t ntfs-3g /dev/sdb3 /media/ubuntu/Acer
+test
 '''
 
 import os
